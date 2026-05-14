@@ -1,0 +1,2 @@
+<?php
+require_once "controller/productoControlador.php";

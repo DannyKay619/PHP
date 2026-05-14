@@ -1,0 +1,68 @@
+<?php
+require_once __DIR__ . "/../config.php";
+
+// LISTAR
+function obtenerProductos() {
+    global $conexion;
+    $sql = "SELECT * FROM inventario";
+    return mysqli_query($conexion, $sql);
+}
+
+// INSERTAR
+function insertarProducto($código, $existencias, $fecha, $gramaje, $laboratorio,
+                          $lote, $marca, $nombre, $generico,
+                          $precio, $proveedor, $temperatura) {
+
+    global $conexion;
+
+    $sql = "INSERT INTO inventario 
+            (`Código de barras`, Existencias, `Fecha de vencimiento`, Gramaje,
+             Laboratorio, Lote, Marca, Nombre, generico,
+             Precio, Proveedor, Temperatura)
+            VALUES
+            ('$código','$existencias','$fecha','$gramaje',
+             '$laboratorio','$lote','$marca','$nombre',
+             '$generico','$precio','$proveedor','$temperatura')";
+
+    return mysqli_query($conexion, $sql);
+}
+
+// OBTENER POR ID
+function obtenerProductoPorId($código) {
+    global $conexion;
+    $sql = "SELECT * FROM inventario WHERE `Código de barras`='$código'";
+    $resultado = mysqli_query($conexion, $sql);
+    return mysqli_fetch_assoc($resultado);
+}
+
+// ACTUALIZAR
+function actualizarProductoPorId($código, $existencias, $fecha, $gramaje, $laboratorio,
+                            $lote, $marca, $nombre, $generico,
+                            $precio, $proveedor, $temperatura) {
+
+    global $conexion;
+
+    $sql = "UPDATE inventario SET
+            Existencias='$existencias',
+            `Fecha de vencimiento`='$fecha',
+            Gramaje='$gramaje',
+            Laboratorio='$laboratorio',
+            Lote='$lote',
+            Marca='$marca',
+            Nombre='$nombre',
+            generico='$generico',
+            Precio='$precio',
+            Proveedor='$proveedor',
+            Temperatura='$temperatura'
+            WHERE `Código de barras`='$código'";
+
+    return mysqli_query($conexion, $sql);
+}
+
+// ELIMINAR
+function eliminarProducto($código) {
+    global $conexion;
+    $sql = "DELETE FROM inventario WHERE `Código de barras`='$código'";
+    return mysqli_query($conexion, $sql);
+}
+?>

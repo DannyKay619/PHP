@@ -1,0 +1,65 @@
+<?php
+require_once __DIR__ . "/../model/producto.php";
+$accion = $_GET['accion'] ?? 'indexP';
+
+switch ($accion) {
+
+case 'crear':
+    require 'view/crear.php';
+    break;
+
+case 'guardar':
+    insertarProducto(
+        $_POST['código'],
+        $_POST['existencias'],
+        $_POST['fecha'],
+        $_POST['gramaje'],
+        $_POST['laboratorio'],
+        $_POST['lote'],
+        $_POST['marca'],
+        $_POST['nombre'],
+        $_POST['generico'],
+        $_POST['precio'],
+        $_POST['proveedor'],
+        $_POST['temperatura']
+    );
+    header("Location: indexP.php");
+    break;
+
+   case 'editar':
+    if(isset($_GET['código'])) {
+        $producto = obtenerProductoPorId($_GET['código']);
+        require __DIR__ . '/../view/editar.php';
+    } else {
+        header("Location: indexP.php");
+        exit();
+    }
+    break;
+case 'actualizar':
+    actualizarProductoPorId(
+        $_POST['código'],
+        $_POST['existencias'],
+        $_POST['fecha'],
+        $_POST['gramaje'],
+        $_POST['laboratorio'],
+        $_POST['lote'],
+        $_POST['marca'],
+        $_POST['nombre'],
+        $_POST['generico'],
+        $_POST['precio'],
+        $_POST['proveedor'],
+        $_POST['temperatura']
+    );
+    header("Location: indexP.php");
+    break;
+
+case 'eliminar':
+    eliminarProducto($_GET['código']);
+    header("Location: indexP.php");
+    break;
+
+default:
+    $productos = obtenerProductos();
+    require 'view/index.php';
+}
+?>
